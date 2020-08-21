@@ -7,7 +7,7 @@ import ssl
 from os import listdir
 
 # data url's
-url_2020 = requests.get("https://www.prefeitura.sp.gov.br/cidade/secretarias/transportes/institucional/sptrans/acesso_a_informacao/agenda/index.php?p=292723").text
+url_2020 = requests.get("https://www.prefeitura.sp.gov.br/cidade/secretarias/transportes/institucional/sptrans/acesso_a_informacao/index.php?p=292723").text
 url_2019 = requests.get("https://www.prefeitura.sp.gov.br/cidade/secretarias/transportes/institucional/sptrans/acesso_a_informacao/index.php?p=269652").text
 url_2018 = requests.get("https://www.prefeitura.sp.gov.br/cidade/secretarias/transportes/institucional/sptrans/acesso_a_informacao/index.php?p=247850").text
 url_2017 = requests.get("https://www.prefeitura.sp.gov.br/cidade/secretarias/transportes/institucional/sptrans/acesso_a_informacao/index.php?p=228269").text
@@ -17,27 +17,27 @@ url_2015 = requests.get("https://www.prefeitura.sp.gov.br/cidade/secretarias/tra
 
 # 2020
 soup_2020 = BeautifulSoup(url_2020, "lxml")
-links_2020 = [i["href"] for i in soup_2020.findAll("a", href=True) if i["href"].endswith(".xls") and "Consolidado" not in i["href"]]
+links_2020 = [i["href"] for i in soup_2020.findAll("a", href=True) if i["href"].endswith(".xls") and "Consolidado" not in i["href"] and "Pass_Transp" not in i["href"]]
 
 # 2019
 soup_2019 = BeautifulSoup(url_2019, "lxml")
-links_2019 = [i["href"] for i in soup_2019.findAll("a", href=True) if i["href"].endswith(".xls") and "Consolidado" not in i["href"]]
+links_2019 = [i["href"] for i in soup_2019.findAll("a", href=True) if i["href"].endswith(".xls") and "Consolidado" not in i["href"] and "Pass_Transp" not in i["href"]]
 
 # 2018
 soup_2018 = BeautifulSoup(url_2018, "lxml")
-links_2018 = [i["href"] for i in soup_2018.findAll("a", href=True) if i["href"].endswith(".xls") and "Consolidado" not in i["href"]]
+links_2018 = [i["href"] for i in soup_2018.findAll("a", href=True) if i["href"].endswith(".xls") and "Consolidado" not in i["href"] and "Pass_Transp" not in i["href"]]
 
 # 2017
 soup_2017 = BeautifulSoup(url_2017, "lxml")
-links_2017 = [i["href"] for i in soup_2017.findAll("a", href=True) if i["href"].endswith(".xls") and "Consolidado" not in i["href"]]
+links_2017 = [i["href"] for i in soup_2017.findAll("a", href=True) if i["href"].endswith(".xls") and "Consolidado" not in i["href"] and "Pass_Transp" not in i["href"]]
 
 # 2016
 soup_2016 = BeautifulSoup(url_2016, "lxml")
-links_2016 = [i["href"] for i in soup_2016.findAll("a", href=True) if i["href"].endswith(".xls") and "Consolidado" not in i["href"]]
+links_2016 = [i["href"] for i in soup_2016.findAll("a", href=True) if i["href"].endswith(".xls") and "Consolidado" not in i["href"] and "Pass_Transp" not in i["href"]]
 
 # 2015
 soup_2015 = BeautifulSoup(url_2015, "lxml")
-links_2015 = [i["href"] for i in soup_2015.findAll("a", href=True) if i["href"].endswith(".xls") and "Consolidado" not in i["href"]]
+links_2015 = [i["href"] for i in soup_2015.findAll("a", href=True) if i["href"].endswith(".xls") and "Consolidado" not in i["href"] and "Pass_Transp" not in i["href"]]
 
 all_links = links_2020 + links_2019 + links_2018 + links_2017 + links_2016 + links_2015
 
@@ -56,27 +56,22 @@ for i in range(len(all_links)):
 
 # Baixando dados
 df = pd.DataFrame()
+
+missing_files = []
+
 for i in range(len(all_links)):
     try:
         file_i, header_i = urllib.request.urlretrieve(all_links[i], "Data/file_{}.xls".format(i+1))
         print("file {} succesfully downloaded".format(i+1))
     except:
         print("There was a problem with file {}".format(i+1))
+        missing_files.append("file_{}".format(i+1))
 
-# Como faltaram arquivos de apenas 2 dias (1628 e 1271) podemos igualar tais datas ao dia anterior
-df_1628 = pd.read_excel("Data/file_1627.xls")
-df_1271 = pd.read_excel("Data/file_1270.xls")
+print(missing_files)
 
-df_1628.to_excel("Data/file_1628.xls")
-df_1271.to_excel("Data/file_1271.xls")
+# Como faltaram arquivos de apenas 2 dias (1615 e 1267) podemos igualar tais datas ao dia anterior
+df_1615 = pd.read_excel("Data/file_1614.xls")
+df_1267 = pd.read_excel("Data/file_1266.xls")
 
-# Juntando todos os dataframes
-all_files = listdir("Data")
-for i in range(len(all_files)):
-    all_files[i] = "Data/{}".format(all_files[i])
-
-df = pd.DataFrame()
-
-for i in range(len(all_files)):
-    file_i = pd.read_excel(all_files[i], skiprows=0)
-    pd.concat([df, file_i], axis=0)
+df_1615.to_excel("Data/file_1615.xls")
+df_1267.to_excel("Data/file_1267.xls")
