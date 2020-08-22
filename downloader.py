@@ -60,26 +60,25 @@ for i in range(len(all_links)):
     all_links[i] = all_links[i].replace(" ", "%20")
     all_links[i] = all_links[i].replace("ê", "%C3%AA")
 
-# Dowloading data
-df = pd.DataFrame()
-
-missing_files = []
-
-for i in range(len(all_links)):
-    try:
-        file_i, header_i = urllib.request.urlretrieve(all_links[i], "Data/file_{}.xls".format(i+1))
-        print("file {} succesfully downloaded".format(i+1))
-    except:
-        print("There was a problem with file {}".format(i+1))
-        missing_files.append("file_{}".format(i+1))
-
-print(missing_files)
+# # Dowloading data
+# missing_files = []
+#
+# for i in range(len(all_links)):
+#     try:
+#         file_i, header_i = urllib.request.urlretrieve(all_links[i], "Data/file_{}.xls".format(i+1))
+#         print("file {} succesfully downloaded".format(i+1))
+#     except:
+#         print("There was a problem with file {}".format(i+1))
+#         missing_files.append("file_{}".format(i+1))
+#
+# print(missing_files)
 
 # Since only 2 days are missing (file 1613 and file 1265) we can make them equal to the previous day
 df_1613 = pd.read_excel("Data/file_1612.xls")
+df_1613["DATA"].replace({pd.to_datetime("2016-10-20 00:00:00"):pd.to_datetime("2016-10-21 00:00:00")}, inplace=True)
 
 df_1265 = pd.read_excel("Data/file_1264.xls")
-
+df_1265["Data"].replace({pd.to_datetime("2017-11-07 00:00:00"):pd.to_datetime("2017-11-08 00:00:00")}, inplace=True)
 
 df_1613.to_excel("Data/file_1613.xls")
 df_1265.to_excel("Data/file_1265.xls")
