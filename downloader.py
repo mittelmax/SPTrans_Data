@@ -18,32 +18,32 @@ url_2015 = requests.get("https://www.prefeitura.sp.gov.br/cidade/secretarias/tra
 # 2020
 soup_2020 = BeautifulSoup(url_2020, "lxml")
 links_2020 = [i["href"] for i in soup_2020.findAll("a", href=True) if i["href"].endswith(".xls")
-              and "Consolidado" not in i["href"] and "Pass_Transp" not in i["href"] and "Consolidade" not in i["href"]]
+              and "Consolidad" not in i["href"] and "Pass_Transp" not in i["href"]]
 
 # 2019
 soup_2019 = BeautifulSoup(url_2019, "lxml")
 links_2019 = [i["href"] for i in soup_2019.findAll("a", href=True) if i["href"].endswith(".xls")
-              and "Consolidado" not in i["href"] and "Pass_Transp" not in i["href"] and "Consolidade" not in i["href"]]
+              and "Consolidad" not in i["href"] and "Pass_Transp" not in i["href"]]
 
 # 2018
 soup_2018 = BeautifulSoup(url_2018, "lxml")
 links_2018 = [i["href"] for i in soup_2018.findAll("a", href=True) if i["href"].endswith(".xls")
-              and "Consolidado" not in i["href"] and "Pass_Transp" not in i["href"] and "Consolidade" not in i["href"]]
+              and "Consolidad" not in i["href"] and "Pass_Transp" not in i["href"]]
 
 # 2017
 soup_2017 = BeautifulSoup(url_2017, "lxml")
 links_2017 = [i["href"] for i in soup_2017.findAll("a", href=True) if i["href"].endswith(".xls")
-              and "Consolidado" not in i["href"] and "Pass_Transp" not in i["href"] and "Consolidade" not in i["href"]]
+              and "Consolidad" not in i["href"] and "Pass_Transp" not in i["href"]]
 
 # 2016
 soup_2016 = BeautifulSoup(url_2016, "lxml")
 links_2016 = [i["href"] for i in soup_2016.findAll("a", href=True) if i["href"].endswith(".xls")
-              and "Consolidado" not in i["href"] and "Pass_Transp" not in i["href"] and "Consolidade" not in i["href"]]
+              and "Consolidad" not in i["href"] and "Pass_Transp" not in i["href"]]
 
 # 2015
 soup_2015 = BeautifulSoup(url_2015, "lxml")
 links_2015 = [i["href"] for i in soup_2015.findAll("a", href=True) if i["href"].endswith(".xls")
-              and "Consolidado" not in i["href"] and "Pass_Transp" not in i["href"] and "Consolidade" not in i["href"]]
+              and "Consolidad" not in i["href"] and "Pass_Transp" not in i["href"]]
 
 all_links = links_2020 + links_2019 + links_2018 + links_2017 + links_2016 + links_2015
 
@@ -75,9 +75,11 @@ for i in range(len(all_links)):
 
 print(missing_files)
 
-# Since only 2 days are missing (file 1615 and file 1267) we can make them equal to the previous day
-df_1615 = pd.read_excel("Data/file_1614.xls")
-df_1267 = pd.read_excel("Data/file_1266.xls")
+# Since only 2 days are missing (file 1613 and file 1265) we can make them equal to the previous day
+df_1613 = pd.read_excel("Data/file_1612.xls")
 
-df_1615.to_excel("Data/file_1615.xls")
-df_1267.to_excel("Data/file_1267.xls")
+df_1265 = pd.read_excel("Data/file_1264.xls")
+
+
+df_1613.to_excel("Data/file_1613.xls")
+df_1265.to_excel("Data/file_1265.xls")
