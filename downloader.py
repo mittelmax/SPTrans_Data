@@ -60,7 +60,7 @@ for i in range(len(all_links)):
     all_links[i] = all_links[i].replace(" ", "%20")
     all_links[i] = all_links[i].replace("ê", "%C3%AA")
 
-# # Dowloading data
+# # Scraping data
 # missing_files = []
 #
 # for i in range(len(all_links)):
