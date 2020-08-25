@@ -3,7 +3,7 @@ library(readxl)
 
 ############
 rm(list=ls())
-##########3#
+############
 
 list_all_files = list.files("Data", full.names = TRUE)
 
