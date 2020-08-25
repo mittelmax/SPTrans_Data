@@ -133,16 +133,3 @@ for (i in 1:length(list_all_files))
   }
   print(paste("file", i, "succesfully changed"))
 }
-
-
-
-# for (i in 1:length(list_all_files)) {
-#   file_i = read_csv(list_all_files[i])
-#   name_i = paste(colnames(file_i), collapse = ", ")
-#   if (name_i == pattern_2) {
-#     print("pattern 1") 
-#   } else {
-#     print("pattern x") 
-#   }
-# }
-
