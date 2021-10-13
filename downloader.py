@@ -47,31 +47,31 @@ links_2015 = [i["href"] for i in soup_2015.findAll("a", href=True) if i["href"].
 
 all_links = links_2020 + links_2019 + links_2018 + links_2017 + links_2016 + links_2015
 
-# Disabling ssl verification
-try:
-    _create_unverified_https_context = ssl._create_unverified_context
-except AttributeError:
-    pass
-else:
-    ssl._create_default_https_context = _create_unverified_https_context
+# # Disabling ssl verification
+# try:
+#     _create_unverified_https_context = ssl._create_unverified_context
+# except AttributeError:
+#     pass
+# else:
+#     ssl._create_default_https_context = _create_unverified_https_context
 
 # Removing spaces and latin-1 characters in url's
 for i in range(len(all_links)):
     all_links[i] = all_links[i].replace(" ", "%20")
     all_links[i] = all_links[i].replace("ê", "%C3%AA")
 
-# # Scraping data
-# missing_files = []
-#
-# for i in range(len(all_links)):
-#     try:
-#         file_i, header_i = urllib.request.urlretrieve(all_links[i], "Data/file_{}.xls".format(i+1))
-#         print("file {} succesfully downloaded".format(i+1))
-#     except:
-#         print("There was a problem with file {}".format(i+1))
-#         missing_files.append("file_{}".format(i+1))
-#
-# print(missing_files)
+# Scraping data
+missing_files = []
+
+for i in range(len(all_links)):
+    try:
+        file_i, header_i = urllib.request.urlretrieve(all_links[i], "Data/file_{}.xls".format(i+1))
+        print("file {} succesfully downloaded".format(i+1))
+    except:
+        print("There was a problem with file {}".format(i+1))
+        missing_files.append("file_{}".format(i+1))
+
+print(missing_files)
 
 # Since only 2 days are missing (file 1613 and file 1265) we can make them equal to the previous day
 df_1613 = pd.read_excel("Data/file_1612.xls")
